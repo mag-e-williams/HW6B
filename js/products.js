@@ -534,6 +534,13 @@ $('.clear-cart').click(function(event) {
 });
 
 
+$(document).ready(function(){
+    $('input[type=radio][name=radio]').change(function() {
+        document.getElementById("selected-color").textContent = "Color Selected: " + this.value;
+        
+    });
+});
+
 
 renderPage()
 
