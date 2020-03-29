@@ -297,9 +297,12 @@ function createCartItems(){
 
                 + "<td class='cart-item-img'><img class='custom-cart-item-img' src='assets/images/product_images/" + productDetail.imgName + "' width='100' height='125' alt='pillows'></td>"
                 + "<td class='cart-item-name' valign='top'><a href='./product_pages/" + detail_page + "#" + product.id + "'><h2>" + product.name + "</h2></a><p>$" + formattedPrice + "</p></td>" 
+                + "<td class='cart-item-color' valign='top'>"  + "<h2>Color: </h2><p>" + product.color + "</p></td>" 
+
                 + "<td class='cart-item-count' valign='top'><div class='input-group'><button class='minus-item input-group-addon' data-id=" + product.id + "><i class='material-icons'>remove</i></button>"
                     + "<input  class='item-count form-control' data-id='" + product.id + "' value='" + product.count + "'>"
                     + "<button class='plus-item input-group-addon' data-id=" + product.id + "><i class='material-icons'>add</i></button></div></td>"
+
                 + "<td class='cart-item-total' valign='top'><p>$" + product.total + "</p></td>" 
                 + "<td class='cart-item-clear' valign='top'><button class='delete-item clear-cart' data-id=" + product.id + "><i class='material-icons'>clear</i></button></td>"
 
@@ -307,8 +310,6 @@ function createCartItems(){
     }
 
     $('.show-cart').html(cartRows);
-
-    
 
 }
 
@@ -354,11 +355,12 @@ function renderPage() {
 var shoppingCart = (function() {
     cart = [];
 
-    function Item(name, price, count, id) {
+    function Item(name, price, count, id, color) {
         this.name = name;
         this.price = price;
         this.count = count;
         this.id = id;
+        this.color = color;
 
     }
 
@@ -375,34 +377,34 @@ var shoppingCart = (function() {
 
     var obj = {};
 
-    obj.addItemToCart = function(id) {
-
-        var productDetail = products.find(product => product.id == id)
+    obj.addItemToCart = function(id, color) {
+        var selectedColor = $('input[name="radio"]:checked').val();
+        var productDetail = products.find(product => product.id == id);
 
         for(var item in cart) {
-            if(cart[item].id === id) {
+            if(cart[item].id === id && cart[item].color === color) {
                 cart[item].count ++;
                 saveCart();
                 return;
             }
         }
-        var item = new Item(productDetail.name, productDetail.price, 1, productDetail.id);
+        var item = new Item(productDetail.name, productDetail.price, 1, productDetail.id, selectedColor);
         cart.push(item);
         saveCart();
     }
 
-    obj.setCountForItem = function(id, count) {
+    obj.setCountForItem = function(id, color, count) {
         for(var i in cart) {
-            if (cart[i].id === id) {
+            if (cart[i].id === id && cart[item].color === color) {
                 cart[i].count = count;
                 break;
             }
         }
     };
 
-    obj.removeItemFromCart = function(id) {
+    obj.removeItemFromCart = function(id, color) {
         for(var item in cart) {
-            if(cart[item].id === id) {
+            if(cart[item].id === id && cart[item].color === color) {
                 cart[item].count --;
                 if(cart[item].count === 0) {
                     cart.splice(item, 1);
@@ -413,9 +415,9 @@ var shoppingCart = (function() {
         saveCart();
     }
 
-    obj.removeItemFromCartAll = function(id) {
+    obj.removeItemFromCartAll = function(id, color) {
         for(var item in cart) {
-            if(cart[item].id === id) {
+            if(cart[item].id === id && cart[item].color === color) {
                 cart.splice(item, 1);
                 break;
             }
@@ -491,8 +493,9 @@ function displayCart() {
 $('.show-cart').on("click", ".delete-item", function(event) {
     console.log("delete");
     var id = $(this).data('id');
-    console.log(id);
-    shoppingCart.removeItemFromCartAll(id);
+    var selectedColor = $('input[name="radio"]:checked').val();
+
+    shoppingCart.removeItemFromCartAll(id, selectedColor);
     displayCart();
 })
 
@@ -502,7 +505,9 @@ $('.show-cart').on("click", ".minus-item", function(event) {
     console.log("minus");
 
     var id = $(this).data('id')
-    shoppingCart.removeItemFromCart(id);
+    var selectedColor = $('input[name="radio"]:checked').val();
+
+    shoppingCart.removeItemFromCart(id, selectedColor);
     displayCart();
 })
 
@@ -511,8 +516,9 @@ $('.show-cart').on("click", ".plus-item", function(event) {
     console.log("plus");
 
     var id = $(this).data('id');
-
-    shoppingCart.addItemToCart(id);
+    var selectedColor = $('input[name="radio"]:checked').val();
+    
+    shoppingCart.addItemToCart(id, selectedColor);
     displayCart();
 })
 
@@ -520,8 +526,9 @@ $('.show-cart').on("click", ".plus-item", function(event) {
 $('.add-to-cart').click(function(event) {
     var productID = window.location.toString().split("#")[1]
     var detailProduct = products.find(product => product.id == productID)
+    var selectedColor = $('input[name="radio"]:checked').val();
 
-    shoppingCart.addItemToCart(detailProduct.id);
+    shoppingCart.addItemToCart(detailProduct.id, selectedColor);
 
     displayCart();
 });
@@ -537,7 +544,6 @@ $('.clear-cart').click(function(event) {
 $(document).ready(function(){
     $('input[type=radio][name=radio]').change(function() {
         document.getElementById("selected-color").textContent = "Color Selected: " + this.value;
-        
     });
 });
 
