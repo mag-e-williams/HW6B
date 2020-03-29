@@ -542,6 +542,24 @@ $('.clear-cart').click(function(event) {
     displayCart();
 });
 
+$('.show-shopping-bag').click(function(event) {
+    $(".cart-view").addClass("visible").removeClass("hidden");
+    $(".wish-list-view").addClass("hidden").removeClass("visible");
+
+    $(".show-shopping-bag").addClass("active");
+    $(".show-wish-list").removeClass("active");
+
+});
+
+$('.show-wish-list').click(function(event) {
+    $(".wish-list-view").addClass("visible").removeClass("hidden");
+    $(".cart-view").addClass("hidden").removeClass("visible");
+
+    $(".show-shopping-bag").removeClass("active");
+    $(".show-wish-list").addClass("active");
+
+});
+
 
 $(document).ready(function(){
     $('input[type=radio][name=radio]').change(function() {

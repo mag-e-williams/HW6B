@@ -725,9 +725,8 @@ button, a {
   cursor: pointer ;
 }
 
-div#cart > :first-child {
-  color: red;
-}
+
+
 
 button.cart-header {
   font-family: inherit; 
@@ -736,11 +735,43 @@ button.cart-header {
   margin: 0; 
   background-color: white;
   border: none;
+  text-color: #3D383B;
+  opacity: 75%;
+
 }
 
+#cart-header {
+  margin-top: 30px;
+  margin-bottom: 15px;
 
+}
 
+#cart-header button h2 {
+  padding: 0px 0px;
+  margin: 0px 0px;
 
+}
+
+button.cart-header.active {
+  opacity: 100%;
+}
+
+button.cart-header:hover {
+  opacity: 100%;
+}
+
+button.shopping-bag{
+  padding-right: 40px;
+  border-right: 0.5px solid #E5E5E5;
+}
+
+button.wish-list{
+  padding-left: 40px;
+}
+
+.hidden {
+  display: none;
+}
 
 
 
