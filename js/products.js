@@ -299,12 +299,12 @@ function createCartItems(){
                 + "<td class='cart-item-name' valign='top'><a href='./product_pages/" + detail_page + "#" + product.id + "'><h2>" + product.name + "</h2></a><p>$" + formattedPrice + "</p></td>" 
                 + "<td class='cart-item-color' valign='top'>"  + "<h2>Color: </h2><p>" + product.color + "</p></td>" 
 
-                + "<td class='cart-item-count' valign='top'><div class='input-group'><button class='minus-item input-group-addon' data-id=" + product.id + "><i class='material-icons'>remove</i></button>"
-                    + "<input  class='item-count form-control' data-id='" + product.id + "' value='" + product.count + "'>"
-                    + "<button class='plus-item input-group-addon' data-id=" + product.id + "><i class='material-icons'>add</i></button></div></td>"
+                + "<td class='cart-item-count' valign='top'><div class='input-group'><button class='minus-item input-group-addon' data-color='" + product.color  + "' data-id=" + product.id + "><i class='material-icons'>remove</i></button>"
+                    + "<input  class='item-count form-control' data-color='" + product.color  + "' data-id='" + product.id + "' value='" + product.count + "'>"
+                    + "<button class='plus-item input-group-addon' data-color='" + product.color  + "' data-id=" + product.id + "><i class='material-icons'>add</i></button></div></td>"
 
                 + "<td class='cart-item-total' valign='top'><p>$" + product.total + "</p></td>" 
-                + "<td class='cart-item-clear' valign='top'><button class='delete-item clear-cart' data-id=" + product.id + "><i class='material-icons'>clear</i></button></td>"
+                + "<td class='cart-item-clear' valign='top'><button class='delete-item clear-cart' data-color='" + product.color  + "' data-id='" + product.id + "'><i class='material-icons'>clear</i></button></td>"
 
             +  "</tr>";
     }
@@ -493,7 +493,7 @@ function displayCart() {
 $('.show-cart').on("click", ".delete-item", function(event) {
     console.log("delete");
     var id = $(this).data('id');
-    var selectedColor = $('input[name="radio"]:checked').val();
+    var selectedColor = $(this).data('color');
 
     shoppingCart.removeItemFromCartAll(id, selectedColor);
     displayCart();
@@ -505,7 +505,7 @@ $('.show-cart').on("click", ".minus-item", function(event) {
     console.log("minus");
 
     var id = $(this).data('id')
-    var selectedColor = $('input[name="radio"]:checked').val();
+    var selectedColor = $(this).data('color');
 
     shoppingCart.removeItemFromCart(id, selectedColor);
     displayCart();
@@ -516,8 +516,10 @@ $('.show-cart').on("click", ".plus-item", function(event) {
     console.log("plus");
 
     var id = $(this).data('id');
-    var selectedColor = $('input[name="radio"]:checked').val();
-    
+    var selectedColor = $(this).data('color');
+
+    console.log(selectedColor)
+
     shoppingCart.addItemToCart(id, selectedColor);
     displayCart();
 })

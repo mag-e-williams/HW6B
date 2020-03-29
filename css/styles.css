@@ -721,6 +721,23 @@ button.plus-item i, button.minus-item i {
   text-decoration: none;
 }
 
+button, a {
+  cursor: pointer ;
+}
+
+div#cart > :first-child {
+  color: red;
+}
+
+button.cart-header {
+  font-family: inherit; 
+  font-size: 100%; 
+  line-height: 1.15;
+  margin: 0; 
+  background-color: white;
+  border: none;
+}
+
 
 
 
